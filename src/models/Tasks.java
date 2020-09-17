@@ -14,18 +14,18 @@ import javax.persistence.Table;
 @Entity
 @NamedQueries({
     @NamedQuery(
-            name = "getAllMessages",
-            query = "SELECT m FROM Message AS m ORDER BY m.id DESC"
-            ),
-    @NamedQuery(
-            name ="getMessageCount",
-            query ="SELECT COUNT(m) FROM Message AS m"
+            name = "getAllTasks",
+            query = "SELECT m FROM Tasks AS m ORDER BY m.id DESC"
             )
+/*
+    @NamedQuery(
+            name ="geTaskCount",
+            query ="SELECT COUNT(m) FROM Tasks AS m"
+*/      //   )
 })
 
-@Table(name ="messages")
-public class Message{
-//id,content,created_at,updated_atで構成
+@Table(name ="tasks")
+public class Tasks{
 
     @Id
     @Column(name ="id")
@@ -41,7 +41,7 @@ public class Message{
     @Column(name ="created_at", nullable = false)
     private Timestamp created_at;
 
-    @Column(name = "upadated_at", nullable = false)
+    @Column(name = "updated_at", nullable = false)
     private Timestamp updated_at;
 
 
