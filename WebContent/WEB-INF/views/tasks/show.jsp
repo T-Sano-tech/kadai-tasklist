@@ -4,7 +4,7 @@
 <c:param name="content">
 <!--
     <c:choose>
-        <c:when test="${tasks != null}">
+        <c:when test="${task != null}">
 -->
         <h2>id：${tasks.id}のタスク管理の詳細</h2>
         <table>

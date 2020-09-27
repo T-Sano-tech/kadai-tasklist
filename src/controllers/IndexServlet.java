@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import models.Tasks;
+import models.Task;
 import utils.DBUtil;
 
 /**
@@ -42,14 +42,15 @@ public class IndexServlet extends HttpServlet {
         }catch(NumberFormatException e){}
 */
         //表示件数の取得
-        List<Tasks> tasks = em.createNamedQuery("getAllTasks", Tasks.class)
-                                    .getResultList();
+
+       List<Task> tasks = em.createNamedQuery("getAllTasks", Task.class)
+                                   .getResultList();
 /*
         long tasks_count = em.createNamedQuery("getTaskCount", Long.class).getSingleResult();
 */
         em.close();
 
-        request.setAttribute("tasks", tasks);
+        request.setAttribute("task", tasks);
 //        request.setAttribute("tasks_count", tasks_count);
 //        request.setAttribute("page", page);
 /*
@@ -58,7 +59,7 @@ public class IndexServlet extends HttpServlet {
             request.getSession().removeAttribute("flush");
         }
 */
-        RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/messages/index.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/tasks/index.jsp");
         rd.forward(request, response);
     }
 
