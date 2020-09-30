@@ -14,16 +14,16 @@ import models.Task;
 import utils.DBUtil;
 
 /**
- * Servlet implementation class CreateServlet
+ * Servlet implementation class UpdateServlet
  */
-@WebServlet("/create")
-public class CreateServlet extends HttpServlet {
+@WebServlet("/update")
+public class UpdateServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public CreateServlet() {
+    public UpdateServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,32 +32,33 @@ public class CreateServlet extends HttpServlet {
      * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        //値チェック
+
         String _token = request.getParameter("_token");
         if(_token != null && _token.equals(request.getSession().getId())){
             EntityManager em = DBUtil.createEntityManager();
 
-            Task t = new Task();
+            //IDを取得して、該当のIDデータを取得
+            Task m = em.find(Task.class, (Integer)(request.getSession().getAttribute("task_id")));
 
+            //フォーム内容をプロパティに上書き
             String title = request.getParameter("title");
-            t.setTitle(title);
+            m.setTitle(title);
 
             String content = request.getParameter("content");
-            t.setContent(content);
+            m.setContent(content);
 
             Timestamp currentTime = new Timestamp(System.currentTimeMillis());
-            t.setCreated_at(currentTime);
-            t.setUpdated_at(currentTime);
+            m.setUpdated_at(currentTime);
 
             em.getTransaction().begin();
-            em.persist(t);
             em.getTransaction().commit();
-            request.getSession().setAttribute("flush", "登録が完了しました。");
+            request.getSession().setAttribute("flush","更新が完了しました。");
             em.close();
 
-            //登録が完了したら一覧へ
-            response.sendRedirect(request.getContextPath() + "/index");
+            //セッション上の不要になったデータを削除
+            request.getSession().removeAttribute("task_id");
 
+            response.sendRedirect(request.getContextPath() + "/index");
         }
     }
 

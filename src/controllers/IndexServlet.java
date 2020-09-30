@@ -46,19 +46,20 @@ public class IndexServlet extends HttpServlet {
        List<Task> tasks = em.createNamedQuery("getAllTasks", Task.class)
                                    .getResultList();
 /*
-        long tasks_count = em.createNamedQuery("getTaskCount", Long.class).getSingleResult();
+        long tasks_count = em.createNamedQuery("getTasksCount", Long.class).getSingleResult();
 */
         em.close();
 
-        request.setAttribute("task", tasks);
+        request.setAttribute("tasks", tasks);
 //        request.setAttribute("tasks_count", tasks_count);
 //        request.setAttribute("page", page);
-/*
+
+        //フラッシュメッセージがセッションにセットされていたらリクエストに保存
         if(request.getSession().getAttribute("flush") != null){
             request.setAttribute("flush", request.getSession().getAttribute("flush"));
             request.getSession().removeAttribute("flush");
         }
-*/
+
         RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/tasks/index.jsp");
         rd.forward(request, response);
     }
